@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -347,41 +347,32 @@ img {
 
   width: fit-content;
 
-  /*
-    Luxury wedding calligraphy font
-    same style as reference image
-  */
+
+  /* exact royal wedding style */
   font-family:
-    "Pinyon Script",
+    "Tangerine",
     "Edwardian Script ITC",
     "Bickham Script Pro",
     cursive;
 
 
-  font-size: clamp(3.4rem, 8vw, 7.8rem);
+  font-size: clamp(4.2rem, 9vw, 8.5rem);
 
 
-  font-weight: 400;
+  font-weight: 700;
 
 
-  /*
-    gives tall S and A curves
-    like second image
-  */
-  line-height: 0.92;
+  line-height: 0.82;
 
 
   color: #7b1d28;
 
 
-  /*
-    closer letters like invitation card
-  */
-  letter-spacing: -0.05em;
+  letter-spacing: -0.02em;
 
 
   text-shadow:
-    0.3px 0 #7b1d28;
+    0.5px 0 #7b1d28;
 
 
   overflow-wrap: break-word;
@@ -392,8 +383,6 @@ img {
   -moz-osx-font-smoothing: grayscale;
 
   text-rendering: optimizeLegibility;
-
-  font-synthesis: none;
 
 }
 
@@ -792,7 +781,7 @@ address {
 
 .thank-card h2 {
   margin: clamp(4px, 1vh, 10px) 0;
-  font-family: "Pinyon Script", "Edwardian Script ITC", cursive;
+  font-family: "Tangerine", "Edwardian Script ITC", cursive;
   font-size: clamp(2.3rem, 6vw, 4rem);
   line-height: 1.05;
   color: #84212b;
