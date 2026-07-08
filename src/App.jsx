@@ -35,12 +35,6 @@ const scenes = [
   { id: "thanks", title: "Thanks", duration: 7200 },
 ];
 
-// A much gentler "Ken Burns" style zoom than before. The previous zoom
-// pulled in far enough that the couple's faces were cropped out of frame
-// on both the reception and wedding photo scenes. This version only
-// breathes the image from 1.0 -> 1.06 scale over the full scene duration,
-// combined with `object-position: center 22%` in CSS so the subjects stay
-// in view the whole time.
 const gentlePhotoZoom = {
   initial: { scale: 1 },
   animate: { scale: 1.06 },
@@ -108,16 +102,6 @@ function ReceptionTemplateScene() {
     </SceneShell>
   );
 }
-
-/*
-  Photo scenes (reception + wedding) reuse the exact same
-  .invitation-layout grid as the template card scenes: a small framed
-  `.photo-card` sits next to the `.side-copy` caption, both centered over
-  the decorative background (petals / gold dust / paper texture stay
-  visible around the card instead of being hidden behind a full-bleed
-  photo). Caption typography reuses .eyebrow/.side-copy h1/.amp so every
-  scene in the deck shares one consistent font style.
-*/
 
 function ReceptionPhotoScene() {
   return (
@@ -297,18 +281,11 @@ function VenueScene() {
       <FallingPetals density={0.5} />
       <GoldDust density={0.9} />
       <motion.div className="venue-card" variants={revealUp} initial="initial" animate="animate" custom={0.15}>
-        <span className="corner-accent top-left" aria-hidden="true" />
-        <span className="corner-accent top-right" aria-hidden="true" />
-        <span className="corner-accent bottom-left" aria-hidden="true" />
-        <span className="corner-accent bottom-right" aria-hidden="true" />
         <div className="venue-copy">
           <p className="eyebrow">Venue</p>
           <h2>Kishore Shubham Conventional Hall</h2>
           <OrnateDivider />
           <address>
-            <span className="pin-icon" aria-hidden="true">
-              &#10022;
-            </span>
             Kalyandurgam Rd,
             <br />
             opposite Bharath Petrolbunk,
@@ -376,25 +353,93 @@ function Scene({ id, onReplay }) {
   }
 }
 
+// Simple full-screen loader shown for the brief moment before the
+// script font (Great Vibes) has finished loading. Keeps the same
+// paper background so there's no visual "flash" before the real intro.
+function FontLoadingGate() {
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        display: "grid",
+        placeItems: "center",
+        background: "#fff8f0",
+        zIndex: 999,
+      }}
+    >
+      <div
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: "50%",
+          border: "3px solid rgba(185,135,45,0.25)",
+          borderTopColor: "#b9872d",
+          animation: "spin 0.9s linear infinite",
+        }}
+      />
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
+}
+
 export default function App() {
   const [active, setActive] = useState(0);
   const audioRef = useRef(null);
   const bgMedia = new URL("./assets/pastel-wedding-reference.mp4", import.meta.url);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  // NEW: don't render any scene until the Great Vibes font has actually
+  // finished loading. This is what fixes the inconsistent script font /
+  // shrunken "a" issue — previously the browser would paint a fallback
+  // font first and swap mid-scene, which looked like the font was
+  // randomly changing.
+  const [fontsReady, setFontsReady] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const markReady = () => {
+      if (!cancelled) setFontsReady(true);
+    };
+
+    if (typeof document !== "undefined" && document.fonts) {
+      Promise.all([
+        document.fonts.load('400 4rem "Great Vibes"'),
+        document.fonts.load('400 2rem "Great Vibes"'),
+        document.fonts.load('400 4rem "Alex Brush"'),
+      ])
+        .then(markReady)
+        .catch(markReady); // fail-open: never block the invite forever
+
+      // Safety net: if fonts.load() hangs (some browsers), force-continue.
+      const fallbackTimer = window.setTimeout(markReady, 2500);
+      return () => {
+        cancelled = true;
+        window.clearTimeout(fallbackTimer);
+      };
+    }
+
+    // document.fonts not supported at all: just continue.
+    markReady();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const currentScene = scenes[active];
   const isLastScene = active === scenes.length - 1;
 
   useEffect(() => {
-    if (isLastScene) return undefined;
+    if (!fontsReady || isLastScene) return undefined;
     const timer = window.setTimeout(
       () => setActive((index) => Math.min(index + 1, scenes.length - 1)),
       currentScene.duration,
     );
     return () => window.clearTimeout(timer);
-  }, [active, currentScene.duration, isLastScene]);
+  }, [active, currentScene.duration, isLastScene, fontsReady]);
 
   useEffect(() => {
-    // try to autoplay background media (muted). many browsers require user gesture for unmuted audio.
     if (!audioRef.current) return;
     const play = async () => {
       try {
@@ -411,6 +456,10 @@ export default function App() {
     () => ({ animationDuration: `${currentScene.duration}ms` }),
     [currentScene.duration],
   );
+
+  if (!fontsReady) {
+    return <FontLoadingGate />;
+  }
 
   return (
     <main className="app-shell">
@@ -448,7 +497,6 @@ export default function App() {
         <button
           type="button"
           onClick={() => {
-            // generate simple .ics save-date file
             const dt = new Date("2026-11-20T10:30:00+05:30");
             const dtStart =
               new Date(dt.getTime() - dt.getTimezoneOffset() * 60000).toISOString().replace(/[-:]/g, "").split(".")[0] +
