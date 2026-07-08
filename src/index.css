@@ -308,37 +308,13 @@ img {
   object-position: center 25%;
   display: block;
 }
-
 .side-copy {
   color: #6f1f24;
-  text-align: center;
-  max-width: min(90vw, 480px);
-  margin: 0 auto;
-  padding: 0 clamp(8px, 2vw, 16px);
-  /* CHANGED: flex-centered column instead of relying only on text-align.
-     Each child (name / amp / name) is now centered on its own exact
-     content width, so "Sowjanya", "&" and "Ankush" all line up on the
-     same true vertical center line instead of the "&" drifting off to
-     one side. */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
-/* CHANGED: previously each name was centered independently, so the
-   shorter word ("Ankush") ended up centered under the middle of the
-   longer one ("Sowjanya") instead of starting under its first letter.
-   .name-block groups both names + the amp as one unit: the names are
-   left-aligned to a shared edge (so "S" and "A" start at the same x
-   position), the amp is centered between them, and the whole block is
-   itself centered on the page since its width shrinks to the widest
-   name and margin: 0 auto centers that box as a whole. */
-.name-block {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: fit-content;
-  margin: 0 auto;
+  text-align: center;
+
+  text-shadow:
+    0 1px 0 rgba(255,255,255,0.65);
 }
 
 .side-copy h1 {
@@ -347,72 +323,45 @@ img {
 
   width: fit-content;
 
-
   font-family:
     "Great Vibes",
     "Edwardian Script ITC",
     "Brush Script MT",
     cursive;
 
-
-  font-size: clamp(3.1rem, 8vw, 7rem);
-
+  font-size: clamp(2.9rem, 7vw, 6.2rem);
 
   font-weight: 400;
 
-
   line-height: 0.86;
-
 
   color: #7b1d28;
 
-
   letter-spacing: 0;
-
 
   text-shadow:
     0.3px 0 #7b1d28;
 
-
   overflow-wrap: break-word;
-
 
   -webkit-font-smoothing: antialiased;
 
   -moz-osx-font-smoothing: grayscale;
 
   text-rendering: optimizeLegibility;
-
 }
 .amp {
-
   display: block;
 
-  align-self: center;
+  margin: 8px 0 2px;
 
-  width: fit-content;
+  color: #b9872d;
 
+  font-family: Georgia, serif;
 
-  margin: 2px 0 4px;
+  font-size: clamp(2rem, 5vw, 4rem);
 
-
-  color: #c8901f;
-
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-
-  font-size: clamp(2.3rem, 5vw, 4.6rem);
-
-
-  font-weight: 700;
-
-
-  line-height: 0.9;
-
+  line-height: 1;
 }
 
 .date-line,
