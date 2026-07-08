@@ -1,0 +1,1050 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==================================================================
+   ROOT / RESET
+================================================================== */
+
+:root {
+  color: #6f1f24;
+  background: #fff8f0;
+  font-family: Inter, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+  max-width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  width: 100%;
+  background:
+    radial-gradient(circle at 22% 18%, rgba(250, 215, 221, 0.72), transparent 34%),
+    radial-gradient(circle at 78% 74%, rgba(244, 211, 139, 0.38), transparent 30%),
+    #fff8f0;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+  font: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ==================================================================
+   APP SHELL / SCENE BASE
+================================================================== */
+
+.app-shell {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto; /* safety net: internal scroll instead of broken layout, never horizontal */
+  scrollbar-width: none; /* firefox: keep scroll working but invisible */
+}
+
+.scene::-webkit-scrollbar {
+  display: none; /* chrome/safari: keep scroll working but invisible */
+}
+
+/* ==================================================================
+   PLAYER CONTROLS (Pause Music / Share / Save Date)
+================================================================== */
+
+.player-controls {
+  position: fixed;
+  right: clamp(8px, 2vw, 16px);
+  top: clamp(8px, 2vw, 16px);
+  z-index: 60;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: clamp(6px, 1.4vw, 10px);
+  max-width: calc(100vw - 16px);
+}
+
+.player-controls button {
+  background: rgba(255, 250, 243, 0.92);
+  border: 1px solid rgba(185, 135, 45, 0.24);
+  padding: clamp(6px, 1.4vw, 8px) clamp(9px, 2.2vw, 14px);
+  border-radius: 999px;
+  font-family: Georgia, serif;
+  font-size: clamp(0.65rem, 2vw, 0.9rem);
+  white-space: nowrap;
+}
+
+/* ==================================================================
+   BACKGROUNDS
+================================================================== */
+
+.bg-paper {
+  background:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.72), rgba(255, 248, 240, 0.58)),
+    radial-gradient(circle at 50% 45%, rgba(248, 220, 229, 0.52), transparent 28%),
+    #fffaf4;
+}
+
+.bg-paper::before,
+.bg-blush-mist::before,
+.bg-ivory-royal::before,
+.countdown-scene::before,
+.venue-scene::before,
+.thank-scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.22;
+  background-image:
+    linear-gradient(115deg, transparent 0 48%, rgba(185, 135, 45, 0.12) 49%, transparent 52%),
+    radial-gradient(circle at 18% 22%, rgba(111, 31, 36, 0.08) 0 1px, transparent 1px);
+  background-size: 160px 160px, 18px 18px;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.bg-blush-mist {
+  background:
+    radial-gradient(circle at 15% 12%, rgba(251, 199, 218, 0.82), transparent 30%),
+    radial-gradient(circle at 80% 32%, rgba(207, 225, 194, 0.48), transparent 28%),
+    linear-gradient(145deg, #fff7f7 0%, #f7dbe4 48%, #fff9ee 100%);
+}
+
+.bg-ivory-royal,
+.countdown-scene,
+.venue-scene,
+.thank-scene {
+  background:
+    radial-gradient(circle at 50% 18%, rgba(244, 211, 139, 0.38), transparent 28%),
+    radial-gradient(circle at 20% 85%, rgba(248, 220, 229, 0.7), transparent 28%),
+    linear-gradient(155deg, #fffaf0 0%, #fff3df 54%, #fde8e9 100%);
+}
+
+/* ==================================================================
+   LOGO INTRO
+================================================================== */
+
+.logo-card {
+  position: relative;
+  width: min(72vw, 440px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #fffaf3;
+  box-shadow: 0 24px 70px rgba(137, 83, 40, 0.16), 0 0 0 1px rgba(185, 135, 45, 0.32);
+}
+
+.logo-card::after {
+  content: "";
+  position: absolute;
+  inset: 5.5%;
+  border: 1px solid rgba(185, 135, 45, 0.42);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ==================================================================
+   DECORATIVE EFFECTS
+================================================================== */
+
+.shine {
+  z-index: 4;
+  width: 45%;
+  transform: skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 248, 224, 0.74), rgba(244, 211, 139, 0.48), transparent);
+  filter: blur(2px);
+}
+
+.petal {
+  position: absolute;
+  top: -12vh;
+  border-radius: 80% 10% 70% 20%;
+  background: radial-gradient(circle at 35% 35%, #fff4f5, #f2aebf 58%, #d9899b);
+  filter: drop-shadow(0 4px 8px rgba(137, 83, 40, 0.13));
+}
+
+.gold-dust {
+  position: absolute;
+  border-radius: 999px;
+  background: #f4d38b;
+  box-shadow: 0 0 12px rgba(244, 211, 139, 0.95), 0 0 24px rgba(185, 135, 45, 0.45);
+}
+
+/* ==================================================================
+   TEMPLATE SLIDES (invitation-layout): Reception card + Wedding card
+================================================================== */
+
+.invitation-layout {
+  position: relative;
+  z-index: 2;
+  min-height: 100dvh;
+  width: 100%;
+  max-width: 100vw;
+  display: grid;
+  grid-template-columns: minmax(0, 430px) minmax(0, 420px);
+  align-items: center;
+  justify-items: center; /* cards shrink to their content instead of stretching to fill the column */
+  justify-content: center;
+  gap: clamp(20px, 4vw, 74px);
+  padding: clamp(20px, 4vw, 58px);
+}
+
+.wedding-layout {
+  grid-template-columns: minmax(0, 400px) minmax(0, 430px);
+}
+
+.template-card {
+  /* CHANGED: the card now shrink-wraps to the image's own rendered size
+     instead of forcing a fixed aspect-ratio box. A fixed box + object-fit:
+     contain was leaving visible white margin (the card's own background)
+     around the artwork whenever the box ratio didn't exactly match the
+     image. Shrink-wrapping removes that margin completely while still
+     never cropping the artwork. */
+  position: relative;
+  display: inline-flex;
+  width: auto;
+  height: auto;
+  justify-self: center;
+  max-width: min(38vw, 430px);
+  max-height: min(84dvh, 720px);
+  margin: 0 auto;
+  border-radius: 22px;
+  overflow: hidden;
+  line-height: 0;
+  box-shadow: 0 24px 74px rgba(137, 83, 40, 0.21), 0 0 0 1px rgba(185, 135, 45, 0.34);
+}
+
+.template-image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* ==================================================================
+   PHOTO CARDS (Reception photo + Wedding photo)
+   These sit inside the SAME invitation-layout grid as the template
+   cards, so the decorative background (petals/gold-dust/paper texture)
+   always stays visible around them instead of the photo covering the
+   whole screen.
+================================================================== */
+
+.photo-card {
+  position: relative;
+  justify-self: center;
+  width: 100%;
+  max-width: min(38vw, 430px);
+  aspect-ratio: 4 / 5;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #fff8f0;
+  box-shadow: 0 24px 74px rgba(137, 83, 40, 0.21), 0 0 0 1px rgba(185, 135, 45, 0.34);
+}
+
+.photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+
+/* legacy cut-out photo frame kept in case it is used by a template graphic */
+.reception-arch-photo {
+  position: absolute;
+  left: 50%;
+  bottom: 10.5%;
+  width: 36%;
+  height: 23%;
+  transform: translateX(-50%);
+  overflow: hidden;
+  border-radius: 48% 48% 8% 8%;
+  border: 3px solid #d8a74d;
+  background: #fff7f3;
+}
+
+.reception-arch-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+}
+
+.side-copy {
+  color: #6f1f24;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
+  max-width: min(90vw, 480px);
+  margin: 0 auto;
+  padding: 0 clamp(8px, 2vw, 16px);
+  /* CHANGED: flex-centered column instead of relying only on text-align.
+     Each child (name / amp / name) is now centered on its own exact
+     content width, so "Sowjanya", "&" and "Ankush" all line up on the
+     same true vertical center line instead of the "&" drifting off to
+     one side. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* CHANGED: previously each name was centered independently, so the
+   shorter word ("Ankush") ended up centered under the middle of the
+   longer one ("Sowjanya") instead of starting under its first letter.
+   .name-block groups both names + the amp as one unit: the names are
+   left-aligned to a shared edge (so "S" and "A" start at the same x
+   position), the amp is centered between them, and the whole block is
+   itself centered on the page since its width shrinks to the widest
+   name and margin: 0 auto centers that box as a whole. */
+.name-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.side-copy h1 {
+  margin: 0;
+  width: fit-content;
+  font-family: "Great Vibes", "Edwardian Script ITC", "Brush Script MT", cursive;
+  font-size: clamp(2.6rem, 7vw, 7rem);
+  font-weight: 400;
+  line-height: 0.86;
+  overflow-wrap: break-word;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: #b9872d;
+  font-family: Georgia, serif;
+  font-size: clamp(0.72rem, 1.6vw, 0.95rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  /* CHANGED: 0.22em -> 0.14em. The old spacing stretched short words like
+     "RECEPTION EVENING" across almost the full width of the caption panel,
+     reading as an odd empty gap. This keeps the same all-caps serif style
+     everywhere in the deck, just tighter. */
+  letter-spacing: 0.14em;
+}
+
+.amp {
+  display: block;
+  align-self: center;
+  width: fit-content;
+  margin: 8px 0 2px;
+  color: #b9872d;
+  font-family: Georgia, serif;
+  font-size: clamp(1.8rem, 5vw, 4rem);
+  line-height: 1;
+}
+
+.date-line,
+.time-line {
+  margin: 8px 0 0;
+  font-family: Georgia, serif;
+  font-size: clamp(1rem, 2.1vw, 1.45rem);
+  color: #6f1f24;
+  overflow-wrap: break-word;
+}
+
+.time-line {
+  color: #8e4d52;
+}
+
+.ornate-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 18px auto 16px;
+  width: min(220px, 70%);
+  height: 18px;
+}
+
+.ornate-divider::before,
+.ornate-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, #b9872d);
+}
+
+.ornate-divider::after {
+  background: linear-gradient(90deg, #b9872d, transparent);
+}
+
+.ornate-divider span {
+  width: 12px;
+  height: 12px;
+  border: 1px solid #b9872d;
+  border-radius: 50% 0 50% 0;
+  transform: rotate(45deg);
+  background: rgba(244, 211, 139, 0.35);
+}
+
+/* ==================================================================
+   CEREMONY RIBBON (Wedding Ceremony bubble, contained inside the card)
+================================================================== */
+
+.ceremony-ribbon {
+  position: absolute;
+  inset: auto clamp(10px, 4%, 24px) clamp(10px, 4%, 24px) auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  max-width: min(70%, 260px);
+  padding: clamp(10px, 2vw, 16px) clamp(14px, 3vw, 22px);
+  border-radius: 20px;
+  background: rgba(255, 250, 243, 0.92);
+  border: 1px solid rgba(185, 135, 45, 0.5);
+  color: #6f1f24;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(137, 83, 40, 0.15);
+}
+
+.ceremony-ribbon .ribbon-title {
+  font-family: Georgia, serif;
+  font-size: clamp(0.78rem, 1.6vw, 1.15rem);
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+}
+
+.ceremony-ribbon .ribbon-time {
+  font-family: Georgia, serif;
+  font-size: clamp(0.65rem, 1.3vw, 0.92rem);
+  color: #b9872d;
+  line-height: 1.2;
+}
+
+/* ==================================================================
+   PHOTO SLIDE CAPTIONS (Reception photo + Wedding photo)
+   These scenes now reuse .invitation-layout + .photo-card, so the couple
+   photo sits in a small framed card next to the caption text — same
+   pattern as the template scenes — instead of covering the whole screen.
+   Caption typography reuses .side-copy / .eyebrow / .amp so every scene
+   shares one consistent font style.
+================================================================== */
+
+.date-band {
+  color: #fffaf3;
+}
+
+.date-band .eyebrow {
+  color: #f4d38b;
+}
+
+.date-band h1 {
+  color: #fffaf3;
+}
+
+.date-band .date-line {
+  color: #fffaf3;
+}
+
+.date-band .time-line {
+  color: #f4d38b;
+}
+
+/* ==================================================================
+   COUNTDOWN / VENUE / THANK-YOU SHARED CARD LAYOUT
+================================================================== */
+
+.countdown-scene,
+.venue-scene,
+.thank-scene {
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 4vw, 56px);
+  padding-bottom: clamp(80px, 12vh, 110px); /* reserve room for fixed scene-nav + progress bar */
+}
+
+.countdown-panel,
+.venue-card,
+.thank-card {
+  position: relative;
+  z-index: 2;
+  width: min(94vw, 920px);
+  max-width: calc(100vw - 24px);
+  max-height: calc(100dvh - 120px); /* keep the whole card, border included, inside the viewport */
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: clamp(18px, 4vw, 48px);
+  border: 1px solid rgba(185, 135, 45, 0.38);
+  border-radius: 22px;
+  background: rgba(255, 250, 243, 0.72);
+  box-shadow: 0 26px 80px rgba(137, 83, 40, 0.16), inset 0 0 55px rgba(244, 211, 139, 0.12);
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.countdown-panel::-webkit-scrollbar,
+.venue-card::-webkit-scrollbar,
+.thank-card::-webkit-scrollbar {
+  display: none;
+}
+
+.timer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(8px, 2vw, 20px);
+  margin: clamp(16px, 3vw, 32px) auto;
+}
+
+.timer-box {
+  min-height: 96px;
+  display: grid;
+  place-items: center;
+  padding: clamp(10px, 2vw, 18px) 8px;
+  border: 1px solid rgba(185, 135, 45, 0.42);
+  border-radius: 16px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(255, 237, 226, 0.64)),
+    rgba(255, 250, 243, 0.72);
+  box-shadow: 0 14px 34px rgba(137, 83, 40, 0.11);
+}
+
+.timer-box strong {
+  display: block;
+  color: #6f1f24;
+  font-family: Georgia, serif;
+  font-size: clamp(1.6rem, 5vw, 4rem);
+  font-weight: 400;
+  line-height: 0.95;
+}
+
+.timer-box span {
+  color: #9b6664;
+  font-size: clamp(0.6rem, 1.4vw, 0.78rem);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.venue-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 260px);
+  align-items: center;
+  gap: clamp(18px, 4vw, 44px);
+  text-align: left;
+}
+
+/* ==================================================================
+   VENUE DECORATION: corner flourishes, address pin icon, QR halo
+================================================================== */
+
+.corner-accent {
+  position: absolute;
+  width: clamp(22px, 4vw, 38px);
+  height: clamp(22px, 4vw, 38px);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.corner-accent::before,
+.corner-accent::after {
+  content: "";
+  position: absolute;
+  background: linear-gradient(90deg, rgba(185, 135, 45, 0.75), rgba(185, 135, 45, 0.15));
+}
+
+.corner-accent::before {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+}
+
+.corner-accent::after {
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+}
+
+.corner-accent.top-left {
+  top: 10px;
+  left: 10px;
+}
+
+.corner-accent.top-right {
+  top: 10px;
+  right: 10px;
+  transform: rotate(90deg);
+  transform-origin: top right;
+}
+
+.corner-accent.bottom-left {
+  bottom: 10px;
+  left: 10px;
+  transform: rotate(-90deg);
+  transform-origin: bottom left;
+}
+
+.corner-accent.bottom-right {
+  bottom: 10px;
+  right: 10px;
+  transform: rotate(180deg);
+}
+
+.venue-copy h2 {
+  color: #6f1f24;
+  font-size: clamp(1.6rem, 4vw, 3.4rem);
+  overflow-wrap: break-word;
+}
+
+.venue-copy .ornate-divider {
+  margin-left: 0;
+}
+
+address {
+  color: #794449;
+  font-family: Georgia, serif;
+  font-size: clamp(0.9rem, 1.8vw, 1.15rem);
+  font-style: normal;
+  line-height: 1.55;
+}
+
+.pin-icon {
+  display: block;
+  margin-bottom: 6px;
+  color: #b9872d;
+  font-size: clamp(0.9rem, 2vw, 1.15rem);
+}
+
+.qr-panel {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid rgba(185, 135, 45, 0.42);
+  border-radius: 18px;
+  background: rgba(255, 250, 243, 0.88);
+  color: #b9872d;
+  text-decoration: none;
+  box-shadow: 0 20px 42px rgba(137, 83, 40, 0.12);
+}
+
+/* Soft double-ring halo around the QR panel, echoing the gold frame
+   used elsewhere in the invitation (logo circle, ornate divider). */
+.qr-panel::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border: 1px solid rgba(185, 135, 45, 0.3);
+  border-radius: 22px;
+  pointer-events: none;
+}
+
+.qr-panel svg {
+  width: min(38vw, 150px);
+  height: min(38vw, 150px);
+}
+
+.qr-panel span {
+  font-family: Georgia, serif;
+  font-size: clamp(0.8rem, 1.8vw, 1rem);
+}
+
+/* ==================================================================
+   THANK YOU CARD
+================================================================== */
+
+.thank-card {
+  width: min(90vw, 620px);
+  /* CHANGED: sized to comfortably fit the logo, heading, message and
+     button together, so the card no longer needs an internal scrollbar
+     (which was hiding the "Replay Invitation" button below the fold). */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(4px, 1.2vh, 8px);
+}
+
+.thank-card img {
+  width: min(24vw, 118px);
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto clamp(8px, 1.6vh, 14px);
+  background: #fffaf3;
+  box-shadow: 0 16px 46px rgba(137, 83, 40, 0.16);
+}
+
+.thank-card h2 {
+  margin: clamp(4px, 1vh, 10px) 0;
+  font-family: "Great Vibes", "Edwardian Script ITC", cursive;
+  font-size: clamp(2.3rem, 6vw, 4rem);
+  line-height: 1.05;
+  color: #84212b;
+}
+
+.thank-card p:not(.eyebrow) {
+  margin: 0 auto;
+  max-width: 420px;
+  color: #794449;
+  font-family: Georgia, serif;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  line-height: 1.5;
+}
+
+.thank-card button {
+  margin-top: clamp(10px, 2vh, 18px);
+  border: 1px solid rgba(185, 135, 45, 0.62);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #b9872d, #f4d38b, #ad7927);
+  color: #fffaf3;
+  cursor: pointer;
+  font-family: Georgia, serif;
+  font-size: clamp(0.85rem, 1.8vw, 1rem);
+  padding: clamp(9px, 1.6vh, 12px) clamp(18px, 4vw, 26px);
+  box-shadow: 0 12px 28px rgba(137, 83, 40, 0.18);
+}
+
+/* ==================================================================
+   FIXED NAV / PROGRESS BAR
+================================================================== */
+
+.scene-nav {
+  position: fixed;
+  z-index: 10;
+  left: 50%;
+  bottom: clamp(12px, 2.5vh, 18px);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100vw - 24px);
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 8px;
+  border: 1px solid rgba(185, 135, 45, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 250, 243, 0.72);
+  box-shadow: 0 16px 42px rgba(137, 83, 40, 0.12);
+  backdrop-filter: blur(12px);
+}
+
+.scene-nav button {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(185, 135, 45, 0.32);
+  cursor: pointer;
+  transition: width 250ms ease, background 250ms ease;
+}
+
+.scene-nav button span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.scene-nav button.active {
+  width: 34px;
+  background: linear-gradient(90deg, #b9872d, #f4d38b);
+}
+
+.scene-progress {
+  position: fixed;
+  z-index: 9;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  transform-origin: left;
+  background: linear-gradient(90deg, #f4d38b, #b9872d, #fff4c7);
+  animation-name: scene-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes scene-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ==================================================================
+   RESPONSIVE BREAKPOINTS
+   1440 desktop / 1024 laptop-tablet / 768 tablet / 480 mobile / 390 iPhone
+================================================================== */
+
+@media (max-width: 1440px) {
+  .invitation-layout {
+    gap: clamp(18px, 3.5vw, 56px);
+  }
+
+  .template-card {
+    max-width: min(40vw, 400px);
+  }
+}
+
+@media (max-width: 1024px) {
+  .invitation-layout,
+  .wedding-layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    /* CHANGED: was `center`. When the stacked photo + caption content is
+       taller than the phone's viewport, centering pushed the top of the
+       names above the screen AND the bottom (date/time) below the
+       screen, in equal, unreachable amounts (only the bottom half was
+       ever scrollable into view, never the top half). Starting from the
+       top means everything begins on-screen, and any overflow only
+       happens at the bottom, where it's actually reachable by scrolling. */
+    align-content: start;
+    padding: 18px 16px 70px;
+  }
+
+  /* CHANGED: the scene-nav dot indicators are fixed-position and were
+     overlapping the date/time caption text on mobile/tablet widths
+     (e.g. "7:00 PM Onwards" getting visually cut off). Fully hidden here
+     — invisible and non-interactive — with no effect on any image size
+     or on the rest of the layout, since fixed elements don't take up
+     document flow space to begin with. Desktop (>1024px) is untouched. */
+  .scene-nav {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .template-card {
+    max-width: min(70vw, 340px);
+    max-height: 56dvh;
+  }
+
+  .side-copy {
+    order: 2;
+  }
+
+  .wedding-copy {
+    order: 2;
+  }
+
+  .side-copy h1 {
+    font-size: clamp(2.4rem, 11vw, 4.2rem);
+  }
+
+  .venue-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .venue-copy .ornate-divider {
+    margin-left: auto;
+  }
+
+  .timer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .timer-box {
+    min-height: 92px;
+  }
+
+  .photo-card {
+    max-width: min(70vw, 340px);
+  }
+}
+
+@media (max-width: 768px) {
+  .template-card {
+    max-width: min(78vw, 320px);
+    max-height: 50dvh;
+  }
+
+  .photo-card {
+    max-width: min(78vw, 300px);
+  }
+
+  .ceremony-ribbon {
+    max-width: min(72%, 220px);
+    padding: 8px 14px;
+  }
+
+  .countdown-scene,
+  .venue-scene,
+  .thank-scene {
+    padding-bottom: clamp(80px, 15vh, 110px);
+  }
+}
+
+@media (max-width: 480px) {
+  .player-controls {
+    top: 8px;
+    right: 8px;
+    gap: 6px;
+  }
+
+  .player-controls button {
+    padding: 6px 9px;
+    font-size: 0.68rem;
+  }
+
+  .template-card {
+    max-width: min(82vw, 300px);
+    max-height: 46dvh;
+  }
+
+  .photo-card {
+    max-width: min(82vw, 280px);
+  }
+
+  .side-copy h1 {
+    font-size: clamp(2.2rem, 13vw, 3.4rem);
+  }
+
+  .ceremony-ribbon {
+    inset: auto 8px 8px auto;
+    max-width: min(66%, 190px);
+  }
+
+  .ceremony-ribbon .ribbon-title {
+    font-size: clamp(0.68rem, 3.2vw, 0.85rem);
+  }
+
+  .timer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .timer-box {
+    min-height: 84px;
+  }
+
+  .countdown-panel,
+  .venue-card,
+  .thank-card {
+    border-radius: 18px;
+    padding: 18px 14px;
+  }
+
+  .thank-card img {
+    width: min(30vw, 104px);
+  }
+
+  .scene-nav {
+    bottom: 10px;
+    padding: 6px;
+  }
+}
+
+@media (max-width: 390px) {
+  .invitation-layout,
+  .wedding-layout {
+    padding: 14px 12px 66px;
+  }
+
+  .template-card {
+    max-width: min(86vw, 270px);
+    max-height: 42dvh;
+  }
+
+  .photo-card {
+    max-width: min(86vw, 250px);
+  }
+
+  .player-controls button {
+    padding: 5px 8px;
+    font-size: 0.62rem;
+  }
+
+  .thank-card h2 {
+    font-size: clamp(2rem, 10vw, 2.7rem);
+  }
+
+  .thank-card p:not(.eyebrow) {
+    font-size: 0.86rem;
+  }
+}
+
+/* Short/landscape viewports: shrink the card content further so the
+   border never runs past the top or bottom of the screen. */
+@media (max-height: 760px) {
+  .countdown-panel,
+  .venue-card,
+  .thank-card {
+    padding: clamp(14px, 3vh, 24px);
+  }
+
+  .venue-copy h2 {
+    font-size: clamp(1.3rem, 3.6vw, 2.2rem);
+  }
+
+  .qr-panel svg {
+    width: min(30vw, 120px);
+    height: min(30vw, 120px);
+  }
+
+  .timer-box {
+    min-height: 70px;
+  }
+
+  .thank-card img {
+    width: min(20vw, 90px);
+  }
+
+  .thank-card h2 {
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+  }
+}
+
+/* ==================================================================
+   ACCESSIBILITY
+================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
